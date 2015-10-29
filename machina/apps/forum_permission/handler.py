@@ -167,6 +167,10 @@ class PermissionHandler(object):
         """
         Given a poll, checks whether the user can answer to it.
         """
+        # An anonymous user shouldn't be allowed to vote
+        if user.is_anonymous():
+            return False
+
         # First we have to check if the poll is curently open
         if poll.duration:
             poll_dtend = poll.created + timedelta(days=poll.duration)

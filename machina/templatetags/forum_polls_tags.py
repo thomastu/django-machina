@@ -19,11 +19,15 @@ register = template.Library()
 def has_been_completed_by(poll, user):
     """
     This will return a boolean indicating if the passed user has already
-    voted in the given poll.
+    voted in the given poll.  Will be false if user is anonymous.
 
     Usage::
 
         {% if poll|has_been_completed_by:user %}...{% endif %}
     """
+    
+    if user.is_anonymous():
+        return False 
+    
     user_votes = user.poll_votes.filter(poll_option__poll=poll)
     return user_votes.exists()
