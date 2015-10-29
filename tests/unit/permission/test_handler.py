@@ -305,6 +305,13 @@ class TestPermissionHandler(object):
         # Run & check
         assert self.perm_handler.can_vote_in_poll(poll, u2)
 
+    def test_anonymous_user_cannot_vote_in_polls(self):
+        # Setup
+        poll = TopicPollFactory.create(topic=self.forum_1_topic)
+        u1 = AnonymousUser()
+        # Run & check
+        assert not self.perm_handler.can_vote_in_poll(poll, u1)
+
     def test_knows_that_a_user_should_no_vote_in_a_completed_poll(self):
         # Setup
         poll = TopicPollFactory.create(topic=self.forum_1_topic, duration=2)
